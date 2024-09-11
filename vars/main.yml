@@ -1,0 +1,13 @@
+---
+pkg_list_rh:
+  - "httpd"
+  - "firewalld"
+pkg_list_ubu:
+  - "apache2"
+  - "firewalld"
+svc_list_rh:
+  - "httpd"
+  - "firewalld"
+svc_list_ubu:
+  - "apache2"
+  - "firewalld"

@@ -1,0 +1,39 @@
+---
+
+- name: "check httpd package status for Redhat"
+  package:
+    name: "httpd"
+    state: "installed"
+  check_mode: yes
+  register: pkg_status_rh
+  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: "test httpd package is installed for Redhat"
+  assert:
+    that:
+      - not pkg_status_rh.changed
+  when: ansible_facts['os_family'] == 'RedHat'
+
+
+- name: "check httpd package status for Debian"
+  package:
+    name: "apache2"
+    state: "present"
+  check_mode: yes
+  register: pkg_status_ubu
+  when: ansible_facts['os_family'] == 'Debian'
+
+
+
+- name: "jtest apache2 package is installed for Debian"
+  assert:
+    that:
+      - not pkg_status_ubu.changed
+  when: ansible_facts['os_family'] == 'Debian'
+
+
+
+- name: Verify Apache is serving web requests.
+  uri:
+    url: http://localhost/
+    status_code: 200
