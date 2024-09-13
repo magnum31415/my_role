@@ -2,9 +2,11 @@
 pkg_list_rh:
   - "httpd"
   - "firewalld"
+  - "ncurses"
 pkg_list_ubu:
   - "apache2"
   - "firewalld"
+  - "ncurses-bin"
 svc_list_rh:
   - "httpd"
   - "firewalld"

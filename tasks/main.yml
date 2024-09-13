@@ -1,44 +1,17 @@
 ---
-- name: "Ensure required packages are present for Redhat"
-  ansible.builtin.yum:
-    state: present
-    name: "{{ pkg_list_rh }}"
+
+- name: Include tasks for Debian-based systems
+  include_tasks: debian.yml
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Include tasks for RedHat-based systems
+  include_tasks: redhat.yml
   when: ansible_facts['os_family'] == 'RedHat'
 
-- name: "Packages update are present for Debian"
-  ansible.builtin.apt:
-    update_cache: true
-  when: ansible_facts['os_family'] == 'Debian'
+- include_tasks: common.yml   
+- include_tasks: menu.yml      
 
-- name: "Ensure required packages are present for Debian"
-  ansible.builtin.apt:
-    name: "{{ pkg_list_ubu }}"
-    state: present
-  when: ansible_facts['os_family'] == 'Debian'
 
-- name: "Ensure latest index.html is present"
-  template:
-    src: index.html.j2
-    dest: /var/www/html/index.html
-
-- name: "Ensure httpd service is started and enabled on Redhat"
-  service:
-    name: "{{ item }}"
-    state: started
-    enabled: true
-  with_items: "{{ svc_list_rh }}"
-  when: ansible_facts['os_family'] == 'RedHat'
-
-- name: "Ensure httpd service is started and enabled on Debain"
-  service:
-    name: "{{ item }}"
-    state: started
-    enabled: true
-  with_items: "{{ svc_list_ubu }}"
-  when: ansible_facts['os_family'] == 'Debian'
-
-- name: "Whitelist httpd in firewalld"
-  firewalld:
-    service: http
-    state: enabled
-    permanent: true
+- name: Print vars
+  debug:
+    msg: "Servidor {{inventory_hostname_short|lower}}  Env: {{env}} Group: {{group}} DC: {{dc}} Services: {{services}}"
