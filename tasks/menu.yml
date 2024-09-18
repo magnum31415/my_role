@@ -53,6 +53,7 @@
   with_items:
     - { src: "gomenu", dest: "/home/oper/scripts/gomenu", mode: "755", owner: "oper", group: "oper" }
     - { src: "bash_profile", dest: "/home/oper/.bash_profile", mode: "644", owner: "oper", group: "oper" }
+    - { src: "motd", dest: "/etc/motd", mode: "644", owner: "root", group: "root" }
 
 
 - name: Copy the Template files

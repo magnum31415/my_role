@@ -8,3 +8,9 @@
     service: http
     state: enabled
     permanent: true
+
+- name: Ensure the 'automation' user exists
+  ansible.builtin.user:
+    name: automation
+    password: "{{ automation_password | password_hash('sha512') }}"
+    

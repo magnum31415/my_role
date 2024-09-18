@@ -1,0 +1,15 @@
+---
+- name: Ping all servers
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Get filesystem disk usage
+      ansible.builtin.command: "df -h --output=pcent,target"
+      register: disk_usage
+
+    - name: Find filesystems that are 90% or more occupied
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      loop: "{{ disk_usage.stdout_lines }}"
+      when: "item.split()[0].split('%')[0] | int >= 90"
