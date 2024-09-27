@@ -25,7 +25,7 @@
 
 
 
-- name: "jtest apache2 package is installed for Debian"
+- name: "test apache2 package is installed for Debian"
   assert:
     that:
       - not pkg_status_ubu.changed

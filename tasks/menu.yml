@@ -54,6 +54,7 @@
     - { src: "gomenu", dest: "/home/oper/scripts/gomenu", mode: "755", owner: "oper", group: "oper" }
     - { src: "bash_profile", dest: "/home/oper/.bash_profile", mode: "644", owner: "oper", group: "oper" }
     - { src: "motd", dest: "/etc/motd", mode: "644", owner: "root", group: "root" }
+    - { src: "check_environment.sh", dest: "/home/oper/scripts/check_environment.sh", mode: "755", owner: "oper", group: "oper" }
 
 
 - name: Copy the Template files
@@ -70,7 +71,17 @@
     - { src: 'menu/main.mnu.j2', dest: "/home/oper/.menu/main.mnu", owner: "oper", mode: "0664", group: "oper" }
     - { src: 'menu/app/main.mnu.j2', dest: "/home/oper/.menu/app/main.mnu", owner: "oper", mode: "0664", group: "oper" }
     - { src: 'menu/app/main.mnu.10-httpd.j2', dest: "/home/oper/.menu/app/main.mnu.10-httpd", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/main.mnu.11-qualis.j2', dest: "/home/oper/.menu/app/main.mnu.10-qualis", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/main.mnu.12-solarwinds.j2', dest: "/home/oper/.menu/app/main.mnu.10-solarwinds", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/main.mnu.13-falconsensor.j2', dest: "/home/oper/.menu/app/main.mnu.10-falconsensor", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/main.mnu.14-oracle-listener.j2', dest: "/home/oper/.menu/app/main.mnu.14-oracle-listener", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/main.mnu.15-oracle-database.j2', dest: "/home/oper/.menu/app/main.mnu.15-oracle-database", owner: "oper", mode: "0664", group: "oper" }
     - { src: 'menu/app/httpd-10-web.mnu.j2', dest: "/home/oper/.menu/app/httpd-10-web.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/qualis-11.mnu.j2', dest: "/home/oper/.menu/app/qualis-11-web.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/solarwinds-12.mnu.j2', dest: "/home/oper/.menu/app/solarwinds-12-web.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/falconsensor-13.mnu.j2', dest: "/home/oper/.menu/app/falconsensor-13-web.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/oracle-listener-14.mnu.j2', dest: "/home/oper/.menu/app/oracle-listener-14-web.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/oracle-database-15.mnu.j2', dest: "/home/oper/.menu/app/oracle-database-15-web.mnu", owner: "oper", mode: "0664", group: "oper" }
     - { src: 'menu/app/main.mnu.20-check.j2', dest: "/home/oper/.menu/app/main.mnu.20-check", owner: "oper", mode: "0664", group: "oper" }
     - { src: 'menu/app/check-20-web.mnu.j2', dest: "/home/oper/.menu/app/check-20-web.mnu", owner: "oper", mode: "0664", group: "oper" }
 

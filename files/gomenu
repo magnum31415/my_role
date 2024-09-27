@@ -52,7 +52,8 @@ GLVL=`expr $GLVL + 1`
 export GLVL
 
 LINE="========================================================================"
-LASTMOD="$Date: 2003/01/13 17:55:31 $"
+#LASTMOD="$Date: 2003/01/13 17:55:31 $"
+LASTMOD=" "
 VERSION="$Revision: 1.18a $"
 #LASTMOD=$(echo $LASTMOD|sed s/\\$//g|sed s/\://g)
 LASTMOD=$(echo $LASTMOD|sed s/\\$//g|sed s/\$//g)
@@ -944,8 +945,11 @@ if [ "${COLS}" -ne "$(tput cols)" ]; then
   doMLINE
 fi
 printf "%s" "${COLOR01}"
-TITLE_HDR="-=*[ GoMenu Ver:$VERSION$LASTMOD]*=-"
+TITLE_HDR="--- [ ${COLOR03}SYNLab OperMenu ${COLOR00}] ---"
+#TITLE_HDR="-=*[ SYNLab OperMenu Ver:$VERSION$LASTMOD]*=-"
+
 VER_HDR="Ver:$VERSION$LASTMOD"
+
 POS=$( expr ${COLS} - $( echo "${TITLE_HDR}"|awk '{print length}') )
 printf "%${POS}s\n" "${TITLE_HDR}"
 #printf "%s\n" "${TITLE_HDR}"

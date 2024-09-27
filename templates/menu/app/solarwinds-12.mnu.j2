@@ -1,4 +1,4 @@
-[ {{ ansible_hostname }} ] -  Apache (httpd) Instance Management
+[ {{ ansible_hostname }} ] -  SolarWinds Agent Management
 Start
   sudo /usr/bin/systemctl start httpd.service; echo "Starting... <INTRO> to continue"; read 
 Stop
@@ -7,7 +7,5 @@ Restart
   sudo /usr/bin/systemctl restart httpd.service; echo "Restarting... <INTRO> to continue"; read
 Status
   sudo /usr/bin/systemctl status httpd.service; echo "Press <INTRO> to continue"; read
-Check Application
-  /home/oper/scripts/check_environment.sh ; echo "Press <INTRO> to continue"; read
 Press q to EXIT
   :
