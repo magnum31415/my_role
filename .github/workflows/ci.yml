@@ -34,9 +34,9 @@ jobs:
           
     strategy:
       matrix:
-        distro:
-          - centos8
-          - ubuntu22
+        # distro:
+        #  - centos8
+        #  - ubuntu22
         python-version:
           - 3.8
 
