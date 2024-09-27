@@ -68,9 +68,14 @@ jobs:
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # Pull the required Docker image
+      # Pull the required Docker image Centos8
       - name: Pull Docker image - CentOS 8
         run: docker pull geerlingguy/docker-centos8-ansible:latest
+
+      # Pull the required Docker image ubuntu2204-ansible:latest
+      - name: Pull Docker image - Ubuntu2204
+        run: docker pull geerlingguy/docker-ubuntu2204-ansible:latest
+        
         
 
       # Run Molecule tests
