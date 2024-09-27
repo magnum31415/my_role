@@ -34,9 +34,9 @@ jobs:
           
     strategy:
       matrix:
-        distro:
-          - centos8
-          - ubuntu22
+        # distro:
+        #  - centos8
+        #  - ubuntu22
         python-version:
           - 3.8
 
@@ -55,6 +55,28 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install molecule molecule-docker ansible
+
+      # remove containerd
+      - name: Ensure  remove --purge containerd containerd.io
+        run: sudo apt-get remove --purge containerd containerd.io
+        
+      # Set up Docker (Optional)
+      - name: Ensure Docker is installed
+        run: sudo apt-get install docker.io
+        
+      # Authenticate to Docker Hub
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      # Pull the required Docker image Centos8
+      - name: Pull Docker image - CentOS 8
+        run: docker pull geerlingguy/docker-centos8-ansible:latest
+
+      # Pull the required Docker image ubuntu2204-ansible:latest
+      - name: Pull Docker image - Ubuntu2204
+        run: docker pull geerlingguy/docker-ubuntu2204-ansible:latest
+        
+        
 
       # Run Molecule tests
       - name: Run Molecule
