@@ -4,11 +4,8 @@
     state: present
     name: "{{ pkg_list_rh }}"
 
-
-
-
 - name: "Ensure httpd service is started and enabled on Redhat"
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
     state: started
     enabled: true

@@ -9,7 +9,7 @@
     state: present
 
 - name: "Ensure httpd service is started and enabled on Debain"
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
     state: started
     enabled: true

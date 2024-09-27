@@ -1,8 +1,8 @@
 ---
 galaxy_info:
-  author: your name
-  description: your role description
-  company: your company (optional)
+  author: Ricard
+  description: role with menuoper and molecule testing
+  company: Unborder Corp
   role_name: my_role  # if absent directory name hosting role is used instead
   namespace: my_galaxy_namespace  # if absent, author is used instead
   # If the issue tracker for your role is not on github, uncomment the
@@ -16,7 +16,7 @@ galaxy_info:
   # - GPL-3.0-only
   # - Apache-2.0
   # - CC-BY-4.0
-  license: license (GPL-2.0-or-later, MIT, etc)
+  license: MIT
 
   min_ansible_version: 2.1
 

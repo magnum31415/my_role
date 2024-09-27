@@ -1,10 +1,13 @@
-- name: "Ensure latest index.html is present"
-  template:
+- name: Ensure latest index.html is present
+  ansible.builtin.template:
     src: index.html.j2
     dest: /var/www/html/index.html
+    owner: apache
+    group: apache
+    mode: '0644'
 
-- name: "Whitelist httpd in firewalld"
-  firewalld:
+- name: Whitelist httpd in firewalld
+  ansible.posix.firewalld:
     service: http
     state: enabled
     permanent: true
@@ -13,4 +16,3 @@
   ansible.builtin.user:
     name: automation
     password: "{{ automation_password | password_hash('sha512') }}"
-    
