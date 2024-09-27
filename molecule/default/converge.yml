@@ -11,4 +11,4 @@
     #     name: "/mnt/c/Users/80020377/Ansible/set_fatcs_inventory"
     - name: include role my_role
       include_role:
-        name: "/mnt/c/Users/80020377/Ansible/my_role"
+        name: "my_role"
