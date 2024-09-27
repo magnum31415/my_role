@@ -14,6 +14,6 @@
 - name: Include menuoper tasks
   ansible.builtin.include_tasks: menu.yml
 
-- name: Print vars
-  ansible.builtin.debug:
-    msg: "Servidor {{ inventory_hostname_short | lower }}  Env: {{ env }} Group: {{ group }} DC: {{ dc }} Services: {{ services }}"
+# - name: Print vars
+#   ansible.builtin.debug:
+#     msg: "Servidor {{ inventory_hostname_short | lower }}  Env: {{ env }} Group: {{ group }} DC: {{ dc }} Services: {{ services }}"
