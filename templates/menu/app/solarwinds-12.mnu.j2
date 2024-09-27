@@ -1,0 +1,11 @@
+[ {{ ansible_hostname }} ] -  SolarWinds Agent Management
+Start
+  sudo /usr/bin/systemctl start httpd.service; echo "Starting... <INTRO> to continue"; read 
+Stop
+  sudo /usr/bin/systemctl stop httpd.service; echo "Stopping... <INTRO> to continue"; read
+Restart
+  sudo /usr/bin/systemctl restart httpd.service; echo "Restarting... <INTRO> to continue"; read
+Status
+  sudo /usr/bin/systemctl status httpd.service; echo "Press <INTRO> to continue"; read
+Press q to EXIT
+  :

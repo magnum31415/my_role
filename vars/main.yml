@@ -2,12 +2,23 @@
 pkg_list_rh:
   - "httpd"
   - "firewalld"
+  - "ncurses"
+  - "openssh-server"
+  - "passwd"
+  - "pam"
 pkg_list_ubu:
   - "apache2"
   - "firewalld"
+  - "ncurses-bin"
+  - "openssh-server"
+  - "passwd"
+  - "base-files"
 svc_list_rh:
   - "httpd"
   - "firewalld"
+  - "sshd"
 svc_list_ubu:
   - "apache2"
   - "firewalld"
+  - "sshd"
+automation_password: "auto1234"

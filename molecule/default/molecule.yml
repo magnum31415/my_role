@@ -11,14 +11,14 @@ lint: |
   ansible-lint
 
 platforms:
-  - name: geerlingguy-centos8
+  - name: centos8-server
     image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos8}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
     pre_build_image: true
-  - name: geerlingguy-ubuntu22.04
+  - name: ubuntu2204-server
     image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2204}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:

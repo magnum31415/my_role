@@ -1,0 +1,105 @@
+---
+# tasks file for menuoper
+- name: Create a unix user group - oper
+  become: yes
+  become_user: root
+  tags: menuoper,groupcreate
+  group:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    gid: "{{ item.gid }}"
+  with_items:
+  - { name: "oper", gid: "11000", state: "present" }
+
+- name: Create a unix user oper
+  become: yes
+  become_user: root
+  tags: menuoper,usercreate
+  user:
+    name: "{{ item.name }}"
+    comment: "{{ item.comment }}"
+    uid: "{{ item.uid }}"
+    group: "{{ item.group }}"
+    groups: "{{ item.groups }}"
+    state: "{{ item.state }}"
+    password: "{{ item.password }}"
+  with_items:
+  - { name: "oper", comment: "oper user", uid: "11000", state: "present", group: "oper", groups: "" , password: "!"}
+
+- name: Create directories
+  become: yes
+  become_user: root
+  tags: menuoper,dirs
+  file:
+    dest: "{{item.dest}}"
+    mode: "{{item.mode}}"
+    owner: "{{item.owner}}"
+    group: "{{item.group}}"
+    state: "{{item.state}}"
+  with_items:
+    - { dest: "/home/oper/.menu", owner: "oper", group: "oper", state: "directory",  mode: '0755' }
+    - { dest: "/home/oper/.menu/app", owner: "oper", group: "oper", state: "directory",  mode: '0755' }
+    - { dest: "/home/oper/scripts", owner: "oper", group: "oper", state: "directory",  mode: '0755' }
+
+- name : Copy required files
+  become: yes
+  tags: menuoper,cpfiles
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+  with_items:
+    - { src: "gomenu", dest: "/home/oper/scripts/gomenu", mode: "755", owner: "oper", group: "oper" }
+    - { src: "bash_profile", dest: "/home/oper/.bash_profile", mode: "644", owner: "oper", group: "oper" }
+    - { src: "motd", dest: "/etc/motd", mode: "644", owner: "root", group: "root" }
+    - { src: "check_environment.sh", dest: "/home/oper/scripts/check_environment.sh", mode: "755", owner: "oper", group: "oper" }
+
+
+- name: Copy the Template files
+  become: yes
+  #become_user: weblogic
+  tags: menuoper
+  template:
+     src: "{{ item.src }}"
+     dest: "{{item.dest}}"
+     mode: "{{item.mode}}"
+     owner: "{{item.owner}}"
+     group: "{{ item.group }}"
+  with_items:
+    - { src: 'menu/main.mnu.j2', dest: "/home/oper/.menu/main.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/main.mnu.j2', dest: "/home/oper/.menu/app/main.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/main.mnu.10-httpd.j2', dest: "/home/oper/.menu/app/main.mnu.10-httpd", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/main.mnu.11-qualis.j2', dest: "/home/oper/.menu/app/main.mnu.10-qualis", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/main.mnu.12-solarwinds.j2', dest: "/home/oper/.menu/app/main.mnu.10-solarwinds", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/main.mnu.13-falconsensor.j2', dest: "/home/oper/.menu/app/main.mnu.10-falconsensor", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/main.mnu.14-oracle-listener.j2', dest: "/home/oper/.menu/app/main.mnu.14-oracle-listener", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/main.mnu.15-oracle-database.j2', dest: "/home/oper/.menu/app/main.mnu.15-oracle-database", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/httpd-10-web.mnu.j2', dest: "/home/oper/.menu/app/httpd-10-web.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/qualis-11.mnu.j2', dest: "/home/oper/.menu/app/qualis-11-web.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/solarwinds-12.mnu.j2', dest: "/home/oper/.menu/app/solarwinds-12-web.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/falconsensor-13.mnu.j2', dest: "/home/oper/.menu/app/falconsensor-13-web.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/oracle-listener-14.mnu.j2', dest: "/home/oper/.menu/app/oracle-listener-14-web.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/oracle-database-15.mnu.j2', dest: "/home/oper/.menu/app/oracle-database-15-web.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/main.mnu.20-check.j2', dest: "/home/oper/.menu/app/main.mnu.20-check", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/app/check-20-web.mnu.j2', dest: "/home/oper/.menu/app/check-20-web.mnu", owner: "oper", mode: "0664", group: "oper" }
+
+
+- name: Add sudo rules to operator and validate the sudoers file before saving
+  tags: menuoper
+  lineinfile:
+    path: "{{ item.path }}"
+    state: "{{ item.state }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    create: yes
+    validate: /usr/sbin/visudo -cf %s
+  with_items:
+    - { path: "/etc/sudoers.d/sudo-oper", state: "present", regexp: "^User_Alias OPERADOR = oper", line: "User_Alias OPERADOR = oper" }
+    - { path: "/etc/sudoers.d/sudo-oper", state: "present", regexp: "OPERADOR ALL = (root) NOPASSWD: /usr/bin/systemctl * httpd.service", line: "OPERADOR ALL = (root) NOPASSWD: /usr/bin/systemctl * httpd.service" }
+
+
+
+
+
