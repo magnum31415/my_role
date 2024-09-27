@@ -100,5 +100,5 @@
     validate: /usr/sbin/visudo -cf %s
   with_items:
     - { path: "/etc/sudoers.d/sudo-oper", state: "present", regexp: "^User_Alias OPERADOR = oper", line: "User_Alias OPERADOR = oper" }
-    - { path: "/etc/sudoers.d/sudo-oper", state: "present", regexp: "OPERADOR ALL = (root) NOPASSWD: /usr/bin/systemctl * httpd.service", line"OPERADOR ALL = (root) NOPASSWD: /usr/bin/systemctl * httpd.service" }
+    - { path: "/etc/sudoers.d/sudo-oper", state: "present", regexp: "OPERADOR ALL = (root) NOPASSWD: /usr/bin/systemctl * httpd.service", line: "OPERADOR ALL = (root) NOPASSWD: /usr/bin/systemctl * httpd.service" }
   
