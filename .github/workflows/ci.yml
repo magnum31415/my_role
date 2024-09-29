@@ -35,7 +35,7 @@ jobs:
           python-version: '3.9'
 
       - name: Install test dependencies.
-        run: pip3 install ansible molecule molecule-plugins[docker] yamllint ansible-lint
+        run: pip3 install ansible molecule molecule-plugins[docker] docker yamllint ansible-lint
 
       - name: Run Molecule tests.
         run: molecule --debug create
