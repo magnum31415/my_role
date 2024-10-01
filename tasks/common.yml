@@ -2,8 +2,8 @@
   ansible.builtin.template:
     src: index.html.j2
     dest: /var/www/html/index.html
-    owner: apache
-    group: apache
+    owner: root
+    group: root
     mode: '0644'
 
 - name: Whitelist httpd in firewalld
