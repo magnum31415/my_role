@@ -24,7 +24,7 @@
     state: "{{ item.state }}"
     password: "{{ item.password }}"
   with_items:
-    - {name: "oper", comment: "oper user", uid: "11000", state: "present", group: "oper",groups: "", password: "!"}
+    - {name: "oper", comment: "oper user", uid: "11000", state: "present", group: "oper", groups: "", password: "!"}
 
 - name: Create directories
   become: true
@@ -101,4 +101,3 @@
   with_items:
     - { path: "/etc/sudoers.d/sudo-oper", state: "present", regexp: "^User_Alias OPERADOR = oper", line: "User_Alias OPERADOR = oper" }
     - { path: "/etc/sudoers.d/sudo-oper", state: "present", regexp: "OPERADOR ALL = (root) NOPASSWD: /usr/bin/systemctl * httpd.service", line: "OPERADOR ALL = (root) NOPASSWD: /usr/bin/systemctl * httpd.service" }
-  

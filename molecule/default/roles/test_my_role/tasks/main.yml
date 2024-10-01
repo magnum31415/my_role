@@ -1,39 +1,33 @@
 ---
-
-- name: "check httpd package status for Redhat"
-  package:
+- name: "Check httpd package status for Redhat"
+  ansible.builtin.package:
     name: "httpd"
     state: "installed"
-  check_mode: yes
+  check_mode: true
   register: pkg_status_rh
   when: ansible_facts['os_family'] == 'RedHat'
 
-- name: "test httpd package is installed for Redhat"
-  assert:
+- name: "Test httpd package is installed for Redhat"
+  ansible.builtin.assert:
     that:
       - not pkg_status_rh.changed
   when: ansible_facts['os_family'] == 'RedHat'
 
-
-- name: "check httpd package status for Debian"
-  package:
+- name: "Check httpd package status for Debian"
+  ansible.builtin.package:
     name: "apache2"
     state: "present"
-  check_mode: yes
+  check_mode: true
   register: pkg_status_ubu
   when: ansible_facts['os_family'] == 'Debian'
 
-
-
-- name: "test apache2 package is installed for Debian"
-  assert:
+- name: "Test apache2 package is installed for Debian"
+  ansible.builtin.assert:
     that:
       - not pkg_status_ubu.changed
   when: ansible_facts['os_family'] == 'Debian'
 
-
-
 - name: Verify Apache is serving web requests.
-  uri:
+  ansible.builtin.uri:
     url: http://localhost/
     status_code: 200

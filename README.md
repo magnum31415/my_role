@@ -1,7 +1,13 @@
 Role Name
 =========
 
-A simple ansible role with molecule configured
+A simple ansible role to deploy menuoper.
+
+This repo is configured with CI:
+
+- molecule
+- github actions
+- pre-commit hook to execute ansible-lint
 
 Requirements
 ------------

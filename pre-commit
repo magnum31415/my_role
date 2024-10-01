@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Run ansible-lint on all .yml and .yaml files in the repository
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.ya?ml$')
+
+if [ "$FILES" ]; then
+    echo "Running ansible-lint..."
+    ansible-lint $FILES
+    if [ $? -ne 0 ]; then
+        echo "ansible-lint failed. Please fix the issues and try again."
+        exit 1  # Prevent the commit if ansible-lint fails
+    fi
+else
+    echo "No YAML files to lint."
+fi
