@@ -1,0 +1,13 @@
+---
+- name: Menuoper
+  hosts: all
+  gather_facts: false
+  vars:
+    # vars file for set_facts_inventory
+    servers:
+      centos8-server: { env: PRO, group: ENTORNO, dc: AUS, services: [httpd.service, firewalld.service, cron] }
+      ubuntu2204-server: { env: PRO, group: ENTORNO, dc: DUS, services: [httpd.service, firewalld.service, cron] }
+  
+  tasks:
+    - meta: noop
+    
