@@ -5,7 +5,7 @@ dependency:
 driver:
   name: docker
 
-lint: |
+#lint: |
 #  set -e
 #  yamllint .
 #  ansible-lint
@@ -27,8 +27,8 @@ platforms:
   #   pre_build_image: true
 provisioner:
   name: ansible
-  lint:
-    name: "ansible-lint"
+#  lint:
+#    name: "ansible-lint"
 scenario:
   name: default
 verifier:
