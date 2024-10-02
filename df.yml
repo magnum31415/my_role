@@ -4,6 +4,70 @@
   gather_facts: true
 
   tasks:
+
+
+    - name: Verificar la versión del sistema operativo
+      ansible.builtin.command: cat /etc/os-release
+      register: os_release
+    - name: Mostrar la versión del sistema operativo
+      ansible.builtin.debug:
+        msg: "Sistema operativo: {{ os_release.stdout }}"
+
+    - name: Validar el tiempo de actividad del servidor
+      ansible.builtin.command: uptime
+      register: uptime_result
+    - name: Mostrar el tiempo de actividad del servidor
+      ansible.builtin.debug:
+        msg: "Tiempo de actividad: {{ uptime_result.stdout }}"
+
+    - name: Verificar la cantidad de memoria disponible
+      ansible.builtin.command: free -m
+      register: memory_result
+    - name: Mostrar la memoria del servidor
+      ansible.builtin.debug:
+        msg: "Memoria disponible: {{ memory_result.stdout }}"
+
+    - name: Verificar el uso del disco
+      ansible.builtin.command: df -h
+      register: disk_usage
+    - name: Mostrar el uso del disco
+      ansible.builtin.debug:
+        msg: "Uso del disco: {{ disk_usage.stdout }}"
+
+    - name: Verificar si el servicio SSH está activo
+      ansible.builtin.systemd:
+        name: sshd
+        state: started
+      register: ssh_service
+    - name: Mostrar el estado del servicio SSH
+      ansible.builtin.debug:
+        msg: "El servicio SSH está {{ 'activo' if ssh_service.state == 'started' else 'inactivo' }}"
+
+    - name: Verificar el uso de la CPU
+      ansible.builtin.command: top -bn1 | grep "Cpu(s)"
+      register: cpu_usage
+    - name: Mostrar el uso de la CPU
+      ansible.builtin.debug:
+        msg: "Uso de la CPU: {{ cpu_usage.stdout }}"
+
+    - name: Verificar la conectividad a Google
+      ansible.builtin.ping:
+        dest: 8.8.8.8
+      register: google_ping
+    - name: Mostrar el estado de conectividad
+      ansible.builtin.debug:
+        msg: "Conectividad a Google: {{ 'exitosa' if google_ping.ping is defined else 'fallida' }}"
+
+    - name: Verificar si el firewall está activo
+      ansible.builtin.systemd:
+        name: firewalld
+        state: started
+      register: firewall_status
+    - name: Mostrar el estado del firewall
+      ansible.builtin.debug:
+        msg: "El servicio de firewall está {{ 'activo' if firewall_status.state == 'started' else 'inactivo' }}"
+
+  
     - name: Get filesystem disk usage
       ansible.builtin.command: "df -h --output=pcent,target"
       register: disk_usage
@@ -24,13 +88,10 @@
       shell: top -bn1 | awk '/MiB Mem/ {printf "%.2f\n", $8/$4 * 100}'
       register: ram_usage
       
-    - name: Gather Disk Space
-      shell: "df -h --output=pcent / | awk 'NR==2 {print $1}'"
-      register: disk_space
+
     - name: Usage Stats
       debug:
         msg: 
           - "Executed On: {{ ansible_date_time.date }} {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }}"
           - "CPU Usage: {{ cpu_usage.stdout }}%"
           - "RAM Usage: {{ ram_usage.stdout }}%"
-          - "Disk Space Used: {{ disk_space.stdout }}"
