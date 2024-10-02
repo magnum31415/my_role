@@ -28,9 +28,11 @@
       register: ssh_service
 
     - name: Verificar la conectividad a Google
-      ansible.builtin.ping:
-        dest: 8.8.8.8
+      ansible.builtin.command: ping -c 4 8.8.8.8
       register: google_ping
+      ignore_errors: yes
+    
+
 
 
     - name: Verificar si el firewall está activo
@@ -62,7 +64,7 @@
           - "RAM Usage: {{ ram_usage.stdout }}%"
           - "Memoria disponible: {{ memory_result.stdout }}"
           - "El servicio SSH está {{ 'activo' if ssh_service.state == 'started' else 'inactivo' }}"
-          - "Conectividad a Google: {{ 'exitosa' if google_ping.ping is defined else 'fallida' }}"
+          - "Conectividad a Google: {{ 'exitosa' if google_ping.rc == 0 else 'fallida' }}"
           - "El servicio de firewall está {{ 'activo' if firewall_status.state == 'started' else 'inactivo' }}"
 
     - name: Get filesystem disk usage
