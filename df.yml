@@ -9,17 +9,10 @@
     - name: Verificar la versión del sistema operativo
       ansible.builtin.command: cat /etc/os-release
       register: os_release
-
-
+      
     - name: Validar el tiempo de actividad del servidor
       ansible.builtin.command: uptime
       register: uptime_result
-
-
-    - name: Verificar la cantidad de memoria disponible
-      ansible.builtin.command: free -m
-      register: memory_result
-
 
     - name: Verificar si el servicio SSH está activo
       ansible.builtin.systemd:
@@ -32,18 +25,11 @@
       register: google_ping
       ignore_errors: yes
     
-
-
-
     - name: Verificar si el firewall está activo
       ansible.builtin.systemd:
         name: firewalld
         state: started
       register: firewall_status
-
-
-  
-
 
     - name: Gather CPU usage
       shell: top -bn1 | grep 'Cpu(s)' | awk '{print $2}'
@@ -53,19 +39,22 @@
       shell: top -bn1 | awk '/MiB Mem/ {printf "%.2f\n", $8/$4 * 100}'
       register: ram_usage
       
+    - name: Listar los puertos abiertos en firewalld (zona pública)
+      ansible.builtin.command: firewall-cmd --zone=public --list-ports
+      register: open_ports
 
     - name: Usage Stats
       debug:
         msg: 
           - "Executed On: {{ ansible_date_time.date }} {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }}"
-          - "Sistema operativo: {{ os_release.stdout }}"
+          - "Sistema operativo: {{ os_release.stdout | replace('\"', '') }}}"
           - "Tiempo de actividad: {{ uptime_result.stdout }}"
           - "CPU Usage: {{ cpu_usage.stdout }}%"
           - "RAM Usage: {{ ram_usage.stdout }}%"
-          - "Memoria disponible: {{ memory_result.stdout }}"
           - "El servicio SSH está {{ 'activo' if ssh_service.state == 'started' else 'inactivo' }}"
           - "Conectividad a Google: {{ 'exitosa' if google_ping.rc == 0 else 'fallida' }}"
           - "El servicio de firewall está {{ 'activo' if firewall_status.state == 'started' else 'inactivo' }}"
+          - "Puertos abiertos: {{ open_ports.stdout }}"
 
     - name: Get filesystem disk usage
       ansible.builtin.command: "df -h --output=pcent,target"
