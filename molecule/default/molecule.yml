@@ -39,7 +39,7 @@ provisioner:
         env: "PRO"
         group: "ENTORNO"
         dc: "AUS"
-        services:
+        menuoper_services:
           - serv_desc: "Apache"
             serv_name: "apache2.service"
           - serv_desc: "Firewall"
