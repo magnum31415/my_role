@@ -50,6 +50,8 @@ provisioner:
             serv_name: "solarwinds.service"
           - serv_desc: "FalconSensor Agent"
             serv_name: "falcon.service"
+          - serv_desc: "Oracle Database labdb"
+            serv_name: "ora_labdd.service"
 scenario:
   name: default
 verifier:
