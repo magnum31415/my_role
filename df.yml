@@ -1,6 +1,6 @@
 ---
 - name: Ping all servers
-  hosts: "{{ host_names | default('none') }}"
+  hosts: "{{ host_names }}"
   gather_facts: true
 
   tasks:
