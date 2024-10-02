@@ -22,7 +22,7 @@ platforms:
   #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
   #   privileged: true
   #   pre_build_image: true
-  - name: instance
+  - name: testing-server1
     image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2204}-ansible:latest"
     command: ""
     volumes:
@@ -33,6 +33,25 @@ platforms:
     # cgroupns_mode: host
 provisioner:
   name: ansible
+  inventory:
+    host_vars:
+      testing-server1:
+        env: "PRO"
+        group: "ENTORNO"
+        dc: "AUS"
+        menuoper_services:
+          - serv_desc: "Apache"
+            serv_name: "apache2.service"
+          - serv_desc: "Firewall"
+            serv_name: "firewalld.service"
+          - serv_desc: "Qualis Agent"
+            serv_name: "qualis.service"
+          - serv_desc: "SolarWinds Agent"
+            serv_name: "solarwinds.service"
+          - serv_desc: "FalconSensor Agent"
+            serv_name: "falcon.service"
+          - serv_desc: "Oracle Database labdb"
+            serv_name: "ora_labdd.service"
 scenario:
   name: default
 verifier:

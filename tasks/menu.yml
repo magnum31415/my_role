@@ -1,4 +1,5 @@
 ---
+
 # tasks file for menuoper
 - name: Create a unix user group - oper
   become: true
@@ -23,8 +24,9 @@
     groups: "{{ item.groups }}"
     state: "{{ item.state }}"
     password: "{{ item.password }}"
+    shell: "{{ item.shell }}"
   with_items:
-    - {name: "oper", comment: "oper user", uid: "11000", state: "present", group: "oper", groups: "", password: "!"}
+    - {name: "oper", comment: "oper user", uid: "11000", state: "present", group: "oper", groups: "", password: "!", shell: "/bin/bash"}
 
 - name: Create directories
   become: true
@@ -57,9 +59,8 @@
     - { src: "check_environment.sh", dest: "/home/oper/scripts/check_environment.sh", mode: "755", owner: "oper", group: "oper" }
 
 
-- name: Copy the Template files
+- name: Main menuoper files
   become: true
-  # become_user: weblogic
   tags: menuoper
   ansible.builtin.template:
     src: "{{ item.src }}"
@@ -70,21 +71,18 @@
   with_items:
     - { src: 'menu/main.mnu.j2', dest: "/home/oper/.menu/main.mnu", owner: "oper", mode: "0664", group: "oper" }
     - { src: 'menu/app/main.mnu.j2', dest: "/home/oper/.menu/app/main.mnu", owner: "oper", mode: "0664", group: "oper" }
-    - { src: 'menu/app/main.mnu.10-httpd.j2', dest: "/home/oper/.menu/app/main.mnu.10-httpd", owner: "oper", mode: "0664", group: "oper" }
-    - { src: 'menu/app/main.mnu.11-qualis.j2', dest: "/home/oper/.menu/app/main.mnu.10-qualis", owner: "oper", mode: "0664", group: "oper" }
-    - { src: 'menu/app/main.mnu.12-solarwinds.j2', dest: "/home/oper/.menu/app/main.mnu.10-solarwinds", owner: "oper", mode: "0664", group: "oper" }
-    - { src: 'menu/app/main.mnu.13-falconsensor.j2', dest: "/home/oper/.menu/app/main.mnu.10-falconsensor", owner: "oper", mode: "0664", group: "oper" }
-    - { src: 'menu/app/main.mnu.14-oracle-listener.j2', dest: "/home/oper/.menu/app/main.mnu.14-oracle-listener", owner: "oper", mode: "0664", group: "oper" }
-    - { src: 'menu/app/main.mnu.15-oracle-database.j2', dest: "/home/oper/.menu/app/main.mnu.15-oracle-database", owner: "oper", mode: "0664", group: "oper" }
-    - { src: 'menu/app/httpd-10-web.mnu.j2', dest: "/home/oper/.menu/app/httpd-10-web.mnu", owner: "oper", mode: "0664", group: "oper" }
-    - { src: 'menu/app/qualis-11.mnu.j2', dest: "/home/oper/.menu/app/qualis-11-web.mnu", owner: "oper", mode: "0664", group: "oper" }
-    - { src: 'menu/app/solarwinds-12.mnu.j2', dest: "/home/oper/.menu/app/solarwinds-12-web.mnu", owner: "oper", mode: "0664", group: "oper" }
-    - { src: 'menu/app/falconsensor-13.mnu.j2', dest: "/home/oper/.menu/app/falconsensor-13-web.mnu", owner: "oper", mode: "0664", group: "oper" }
-    - { src: 'menu/app/oracle-listener-14.mnu.j2', dest: "/home/oper/.menu/app/oracle-listener-14-web.mnu", owner: "oper", mode: "0664", group: "oper" }
-    - { src: 'menu/app/oracle-database-15.mnu.j2', dest: "/home/oper/.menu/app/oracle-database-15-web.mnu", owner: "oper", mode: "0664", group: "oper" }
-    - { src: 'menu/app/main.mnu.20-check.j2', dest: "/home/oper/.menu/app/main.mnu.20-check", owner: "oper", mode: "0664", group: "oper" }
-    - { src: 'menu/app/check-20-web.mnu.j2', dest: "/home/oper/.menu/app/check-20-web.mnu", owner: "oper", mode: "0664", group: "oper" }
 
+- name: Inicializar variable contador
+  ansible.builtin.set_fact:
+    contador: 0
+
+- name: Include tasks menu_items.yml
+  tags: menuoper
+  ansible.builtin.include_tasks: "menu_items.yml"
+  loop: "{{ menuoper_services }}"
+  loop_control:
+    index_var: contador
+    loop_var: item_srv
 
 - name: Add sudo rules to operator and validate the sudoers file before saving
   tags: menuoper
@@ -100,4 +98,3 @@
     validate: /usr/sbin/visudo -cf %s
   with_items:
     - { path: "/etc/sudoers.d/sudo-oper", state: "present", regexp: "^User_Alias OPERADOR = oper", line: "User_Alias OPERADOR = oper" }
-    - { path: "/etc/sudoers.d/sudo-oper", state: "present", regexp: "OPERADOR ALL = (root) NOPASSWD: /usr/bin/systemctl * httpd.service", line: "OPERADOR ALL = (root) NOPASSWD: /usr/bin/systemctl * httpd.service" }
