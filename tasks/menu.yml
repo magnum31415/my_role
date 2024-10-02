@@ -88,18 +88,16 @@
     # - { src: 'menu/app/check-20-web.mnu.j2', dest: "/home/oper/.menu/app/check-20-web.mnu", owner: "oper", mode: "0664", group: "oper" }
 
 - name: Inicializar variable contador
-  set_fact:
+  ansible.builtin.set_fact:
     contador: 0
 
-    
 - name: Include tasks menu_items.yml
   tags: menuoper
   ansible.builtin.include_tasks: "menu_items.yml"
   loop: "{{ services }}"
   loop_control:
     index_var: contador
-    loop_var: item_srv  
-
+    loop_var: item_srv
 
 - name: Add sudo rules to operator and validate the sudoers file before saving
   tags: menuoper

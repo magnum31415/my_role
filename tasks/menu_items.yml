@@ -1,11 +1,11 @@
 ---
 
-- name: Auto generated menu - main service file 
+- name: Auto generated menu - main service file
   become: true
   tags: menuoper
   ansible.builtin.template:
     src: "menu/app/generic.main.mnu.XX.mnu.j2"
-    dest: "/home/oper/.menu/app/main.mnu.{{contador}}.{{ item_srv.serv_name.split('.')[0] }}.mnu"
+    dest: "/home/oper/.menu/app/main.mnu.{{ contador }}.{{ item_srv.serv_name.split('.')[0] }}.mnu"
     mode: "640"
     owner: "oper"
     group: "oper"
@@ -15,7 +15,7 @@
   tags: menuoper
   ansible.builtin.template:
     src: "menu/app/generic.XX.mnu.j2"
-    dest: "/home/oper/.menu/app/{{ item_srv.serv_name.split('.')[0] }}-{{contador}}.mnu"
+    dest: "/home/oper/.menu/app/{{ item_srv.serv_name.split('.')[0] }}-{{ contador }}.mnu"
     mode: "640"
     owner: "oper"
     group: "oper"

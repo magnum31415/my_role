@@ -12,5 +12,6 @@
     # - name: Include_role my_role
     #   ansible.builtin.include_role:
     #     name: "my_role"
-    
-- import_playbook: "../../menuoper.yml"
+
+- name: Import menuoper playbook
+  import_playbook: "../../menuoper.yml"

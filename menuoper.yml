@@ -5,14 +5,14 @@
   # vars:
   #   # vars file for set_facts_inventory
   #   servers:
-  #     testing-server1: 
+  #     testing-server1:
   #       env: PRO
   #       group: ENTORNO
   #       dc: AUS
   #       services:
   #         - serv_desc: "Apache"
   #           serv_name: "apache2.service"
-  #           serv_chek: 
+  #           serv_chek:
   #         - serv_desc: "Firewall"
   #           serv_name: "firewalld.service"
   #         - serv_desc: "Qualis Agent"
@@ -38,4 +38,3 @@
     - name: Include_role my_role
       ansible.builtin.include_role:
         name: "my_role"
-

@@ -24,4 +24,3 @@ svc_list_ubu:
   - "firewalld"
   - "sshd"
 automation_password: "auto1234"
-
