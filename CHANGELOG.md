@@ -1,4 +1,9 @@
 
+## [1.0.3] - 2024-10-02 
+
+### Added
+-  Menu oper entries are automatically generated form menuoper_services var
+
 ## [1.0.2] - 2024-10-01 
 
 ### Added
