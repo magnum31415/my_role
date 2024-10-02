@@ -1,0 +1,11 @@
+[ {{ ansible_hostname }} ] -  {{ item_srv.serv_desc }} Management
+Start
+  sudo /usr/bin/systemctl start {{ item_srv.serv_name }}; echo "Starting... <INTRO> to continue"; read 
+Stop
+  sudo /usr/bin/systemctl stop {{ item_srv.serv_name }}; echo "Stopping... <INTRO> to continue"; read
+Restart
+  sudo /usr/bin/systemctl restart {{ item_srv.serv_name }}; echo "Restarting... <INTRO> to continue"; read
+Status
+  sudo /usr/bin/systemctl status {{ item_srv.serv_name }}; echo "Press <INTRO> to continue"; read
+Press q to EXIT
+  :

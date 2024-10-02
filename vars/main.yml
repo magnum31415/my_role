@@ -6,6 +6,7 @@ pkg_list_rh:
   - "openssh-server"
   - "passwd"
   - "pam"
+  - "nftables"
 pkg_list_ubu:
   - "apache2"
   - "firewalld"
@@ -13,6 +14,7 @@ pkg_list_ubu:
   - "openssh-server"
   - "passwd"
   - "base-files"
+  - "nftables"
 svc_list_rh:
   - "httpd"
   - "firewalld"
@@ -22,3 +24,4 @@ svc_list_ubu:
   - "firewalld"
   - "sshd"
 automation_password: "auto1234"
+

@@ -1,0 +1,36 @@
+---
+
+- name: Auto generated menu - main service file 
+  become: true
+  tags: menuoper
+  ansible.builtin.template:
+    src: "menu/app/generic.main.mnu.XX.mnu.j2"
+    dest: "/home/oper/.menu/app/main.mnu.{{contador}}.{{ item_srv.serv_name.split('.')[0] }}.mnu"
+    mode: "640"
+    owner: "oper"
+    group: "oper"
+
+- name: Auto generated menu - options service file
+  become: true
+  tags: menuoper
+  ansible.builtin.template:
+    src: "menu/app/generic.XX.mnu.j2"
+    dest: "/home/oper/.menu/app/{{ item_srv.serv_name.split('.')[0] }}-{{contador}}.mnu"
+    mode: "640"
+    owner: "oper"
+    group: "oper"
+
+- name: Auto generated menu - Add sudo rules to operator to manage ].services
+  tags: menuoper
+  ansible.builtin.lineinfile:
+    path: "{{ item.path }}"
+    state: "{{ item.state }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    owner: root
+    group: root
+    mode: '0440'
+    create: true
+    validate: /usr/sbin/visudo -cf %s
+  with_items:
+    - { path: "/etc/sudoers.d/sudo-oper", state: "present", regexp: "OPERADOR ALL = (root) NOPASSWD: /usr/bin/systemctl * {{ item_srv.serv_name }}", line: "OPERADOR ALL = (root) NOPASSWD: /usr/bin/systemctl * {{ item_srv.serv_name }}" }
