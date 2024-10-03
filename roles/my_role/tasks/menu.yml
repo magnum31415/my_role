@@ -86,6 +86,7 @@
 
 - name: Add sudo rules to operator and validate the sudoers file before saving
   tags: menuoper
+  become: true
   ansible.builtin.lineinfile:
     path: "{{ item.path }}"
     state: "{{ item.state }}"
