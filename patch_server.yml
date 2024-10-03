@@ -1,0 +1,86 @@
+---
+- name: Check servers
+  hosts: "{{ target_hostnames  | default('none') }}"
+  gather_facts: true
+  vars:
+    ansible_user: "{{ target_ansible_user | default('none') }}"
+    ansible_password: "{{ target_ansible_password | default('none') }}"
+
+  tasks:
+    - name: Get CPU Load
+      ansible.builtin.shell: "awk '{u=$1; t=$2; idle=$3; } END { print 100 - (idle/t) * 100 }' /proc/stat"
+      register: cpu_load
+
+    - name: Check CPU Load is below to 80%
+      ansible.builtin.fail:
+        msg: "La carga de la CPU es superior al 80%. Actual: {{ cpu_load.stdout | float }}%"
+      when: cpu_load.stdout | float > 80
+    
+    - name: Gather RAM Usage
+      ansible.builtin.shell: |
+        set -o pipefail;
+        top -bn1 | awk '/MiB Mem/ {printf "%.2f\n", $8/$4 * 100}'
+      register: ram_usage
+      changed_when: false
+    
+    - name: Check RAM Usage  is below to 80%
+      ansible.builtin.fail:
+        msg: "MEM Usage is superiro than  80%. Actual: {{ cpu_load.stdout | float }}%"
+      when: ram_usage.stdout | float > 80
+
+    - name: Get filesystem disk usage
+      ansible.builtin.command: "df -h --output=pcent,target"
+      register: disk_usage
+      changed_when: false
+
+    - name: Find filesystems that are 90% or more occupied
+      ansible.builtin.fail:
+        msg: "{{ item }}"
+      loop: "{{ disk_usage.stdout_lines }}"
+      when: "item.split()[0].split('%')[0] | int >= 90"
+
+
+    - name: Validar el tiempo de actividad del servidor
+      ansible.builtin.command: uptime
+      register: uptime_result
+      changed_when: false
+
+    - name: Verificar si el servicio SSH está activo
+      ansible.builtin.systemd:
+        name: sshd
+        state: started
+      register: ssh_service
+
+    - name: Verificar la conectividad a Google
+      ansible.builtin.command: ping -c 4 8.8.8.8
+      register: google_ping
+      changed_when: false
+      ignore_errors: true
+
+    - name: Verificar si el firewall está activo
+      ansible.builtin.systemd:
+        name: firewalld
+        state: started
+      register: firewall_status  
+
+    - name: Listar los puertos abiertos en firewalld (zona pública)
+      become: true
+      ansible.builtin.command: firewall-cmd --zone=public --list-ports
+      register: open_ports
+      changed_when: false
+
+    - name: Usage Stats
+      ansible.builtin.debug:
+        msg:
+          - "Executed On: {{ ansible_date_time.date }} {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }}"
+          - "Operative System: {{ os_release.stdout | replace('\"', '') }}}"
+          - "UP Time: {{ uptime_result.stdout }}"
+          - "CPU Usage: {{ cpu_load.stdout }}%"
+          - "RAM Usage: {{ ram_usage.stdout }}%"
+          - "SSH Service is: {{ 'active' if ssh_service.state == 'started' else 'inactive' }}"
+          - "Firewall Service is {{ 'active' if firewall_status.state == 'started' else 'inactive' }}"
+          - "Puertos abiertos: {{ open_ports.stdout }}"
+          - "Conectivity to Google: {{ 'OK' if google_ping.rc == 0 else 'Not OK' }}"
+
+
+
