@@ -17,10 +17,11 @@
     #   ansible.builtin.debug:
     #     msg: "{{ inventory_hostname  }} - {{ dc  }}"
     #     var: hostvars[inventory_hostname]
-    - src: https://github.com/magnum31415/my_role.git
+    - name: pull my_role 
+      src: https://github.com/magnum31415/my_role.git
       scm: git
       version: main 
-      name: mi_role
+
       
     - name: Include_role my_role
       ansible.builtin.include_role:
