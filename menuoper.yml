@@ -18,9 +18,9 @@
     #     msg: "{{ inventory_hostname  }} - {{ dc  }}"
     #     var: hostvars[inventory_hostname]
     - name: pull my_role 
-      src: https://github.com/magnum31415/my_role.git
-      scm: git
-      version: main 
+      ansible.builtin.git:
+        repo: 'https://github.com/magnum31415/my_role.git'
+        version: main
 
       
     - name: Include_role my_role
