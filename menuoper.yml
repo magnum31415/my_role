@@ -1,27 +1,10 @@
 ---
 - name: Menuoper
-  hosts: all
-  gather_facts: false
-  # vars:
-  #   # vars file for set_facts_inventory
-  #   servers:
-  #     testing-server1:
-  #       env: PRO
-  #       group: ENTORNO
-  #       dc: AUS
-  #       services:
-  #         - serv_desc: "Apache"
-  #           serv_name: "apache2.service"
-  #           serv_chek:
-  #         - serv_desc: "Firewall"
-  #           serv_name: "firewalld.service"
-  #         - serv_desc: "Qualis Agent"
-  #           serv_name: "qualis.service"
-  #         - serv_desc: "SolarWinds Agent"
-  #           serv_name: "solarwinds.service"
-  #         - serv_desc: "FalconSensor Agent"
-  #           serv_name: "falcon.service"
-  #     testing-server2: { env: PRO, group: ENTORNO, dc: DUS, services: [{ serv_desc: "Apache", serv_name: "httpd.service" }, { serv_desc: "Firewall", serv_name: "firewalld.service" }] }
+  hosts: "{{ target_hostnames }}"
+  gather_facts: true
+  vars:
+    ansible_user: "{{ target_ansible_user }}"
+    ansible_password: "{{ target_ansible_password }}"
 
   tasks:
     # - name: Noop task
