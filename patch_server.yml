@@ -8,21 +8,24 @@
 
   tasks:
     - name: Get CPU Load
-      ansible.builtin.shell: "awk '{u=$1; t=$2; idle=$3; } END { print 100 - (idle/t) * 100 }' /proc/stat"
+      ansible.builtin.shell: |
+        set -o pipefail;
+        top -bn1 | grep 'Cpu(s)' | awk '{print $2}'
       register: cpu_load
+      changed_when: false
 
     - name: Check CPU Load is below to 80%
       ansible.builtin.fail:
         msg: "La carga de la CPU es superior al 80%. Actual: {{ cpu_load.stdout | float }}%"
       when: cpu_load.stdout | float > 80
-    
+
     - name: Gather RAM Usage
       ansible.builtin.shell: |
         set -o pipefail;
         top -bn1 | awk '/MiB Mem/ {printf "%.2f\n", $8/$4 * 100}'
       register: ram_usage
       changed_when: false
-    
+
     - name: Check RAM Usage  is below to 80%
       ansible.builtin.fail:
         msg: "MEM Usage is superiro than  80%. Actual: {{ cpu_load.stdout | float }}%"
@@ -61,7 +64,7 @@
       ansible.builtin.systemd:
         name: firewalld
         state: started
-      register: firewall_status  
+      register: firewall_status
 
     - name: Listar los puertos abiertos en firewalld (zona pública)
       become: true
@@ -81,6 +84,3 @@
           - "Firewall Service is {{ 'active' if firewall_status.state == 'started' else 'inactive' }}"
           - "Puertos abiertos: {{ open_ports.stdout }}"
           - "Conectivity to Google: {{ 'OK' if google_ping.rc == 0 else 'Not OK' }}"
-
-
-
