@@ -65,6 +65,12 @@
       changed_when: false
       ignore_errors: true
 
+    - name: Kernel Version
+      ansible.builtin.command: uname -r
+      register: kernel
+      changed_when: false
+      ignore_errors: true
+
     - name: Verificar si el firewall está activo
       ansible.builtin.systemd:
         name: firewalld
@@ -82,6 +88,7 @@
         msg:
           - "Executed On: {{ ansible_date_time.date }} {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }}"
           - "Operative System: {{ os_release.stdout | replace('\"', '') }}}"
+          - "Kernel Version: {{ kernel.stdout | replace('\"', '') }}}"
           - "UP Time: {{ uptime_result.stdout }}"
           - "CPU Usage: {{ cpu_load.stdout }}%"
           - "RAM Usage: {{ ram_usage.stdout }}%"
