@@ -7,6 +7,11 @@
     ansible_password: "{{ target_ansible_password | default('none') }}"
 
   tasks:
+    - name: Verificar la versión del sistema operativo
+      ansible.builtin.command: cat /etc/os-release
+      register: os_release
+      changed_when: false
+
     - name: Get CPU Load
       ansible.builtin.shell: |
         set -o pipefail;
