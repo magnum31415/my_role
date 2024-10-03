@@ -101,3 +101,16 @@
           - "Firewall Service is {{ 'active' if firewall_status.state == 'started' else 'inactive' }}"
           - "Puertos abiertos: {{ open_ports.stdout }}"
           - "Conectivity to Google: {{ 'OK' if google_ping.rc == 0 else 'Not OK' }}"
+
+    - name: System UPDATE
+      become: true
+      ansible.builtin.yum:
+        name: "*"
+        state: latest
+      register: yum_update_result 
+
+    - name: Reboot server if required
+      ansible.builtin.reboot:
+        msg: "Reboot after update"
+        reboot_timeout: 300
+      when: yum_update_result.changed  
