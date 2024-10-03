@@ -1,7 +1,7 @@
 Role Name
 =========
 
-A simple ansible role to deploy menuoper.
+A simple ansible role to deploy menuoper defined in menuoper_services 
 
 This repo is configured with CI:
 
@@ -11,6 +11,14 @@ This repo is configured with CI:
 
 Requirements
 ------------
+
+menuoper_services:
+  - serv_desc: "Semaphore UI - Ansible Console"
+    serv_name: "semaphore.service"
+  - serv_desc: "BD PostgreSQL"
+    serv_name: "postgresql.service"
+  - serv_desc: "Qualis Cloud Agent"
+    serv_name: "qualis-cloud-agent.service"
 
 Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 

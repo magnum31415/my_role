@@ -1,10 +1,10 @@
 ---
 - name: Menuoper
-  hosts: "{{ target_hostnames }}"
+  hosts: "all"
   gather_facts: true
-  vars:
-    ansible_user: "{{ target_ansible_user }}"
-    ansible_password: "{{ target_ansible_password }}"
+  # vars:
+  #   ansible_user: "{{ target_ansible_user | default('none') }}"
+  #   ansible_password: "{{ target_ansible_password | default('none') }}"
 
   tasks:
     # - name: Noop task
@@ -17,10 +17,10 @@
     #   ansible.builtin.debug:
     #     msg: "{{ inventory_hostname  }} - {{ dc  }}"
     #     var: hostvars[inventory_hostname]
-    - name: pull my_role 
-      ansible.builtin.git:
-        repo: 'https://github.com/magnum31415/my_role.git'
-        version: main
+    # - name: pull my_role 
+    #   ansible.builtin.git:
+    #     repo: 'https://github.com/magnum31415/my_role.git'
+    #     version: main
 
       
     - name: Include_role my_role
