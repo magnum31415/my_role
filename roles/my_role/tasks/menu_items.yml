@@ -22,6 +22,7 @@
 
 - name: Auto generated menu - Add sudo rules to operator to manage ].services
   tags: menuoper
+  become: true
   ansible.builtin.lineinfile:
     path: "{{ item.path }}"
     state: "{{ item.state }}"
