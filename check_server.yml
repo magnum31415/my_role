@@ -59,19 +59,20 @@
       ansible.builtin.debug:
         msg:
           - "Executed On: {{ ansible_date_time.date }} {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }}"
-          - "Sistema operativo: {{ os_release.stdout | replace('\"', '') }}}"
-          - "Tiempo de actividad: {{ uptime_result.stdout }}"
+          - "Operative System: {{ os_release.stdout | replace('\"', '') }}}"
+          - "UP Time: {{ uptime_result.stdout }}"
           - "CPU Usage: {{ cpu_usage.stdout }}%"
           - "RAM Usage: {{ ram_usage.stdout }}%"
-          - "El servicio SSH está {{ 'activo' if ssh_service.state == 'started' else 'inactivo' }}"
-          - "Conectividad a Google: {{ 'exitosa' if google_ping.rc == 0 else 'fallida' }}"
-          - "El servicio de firewall está {{ 'activo' if firewall_status.state == 'started' else 'inactivo' }}"
+          - "SSH Service is: {{ 'active' if ssh_service.state == 'started' else 'inactive' }}"
+          - "Firewall Service is {{ 'active' if firewall_status.state == 'started' else 'inactive' }}"
           - "Puertos abiertos: {{ open_ports.stdout }}"
+          - "Conectivity to Google: {{ 'OK' if google_ping.rc == 0 else 'Not OK' }}"
+
 
     - name: Get filesystem disk usage
       ansible.builtin.command: "df -h --output=pcent,target"
       register: disk_usage
-      changed_when: disk_usage.rc != 0
+      changed_when: false
 
     - name: Find filesystems that are 90% or more occupied
       ansible.builtin.debug:
