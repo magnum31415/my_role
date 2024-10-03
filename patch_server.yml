@@ -8,7 +8,7 @@
 
   tasks:
     - name: Verificar la versión del sistema operativo
-      ansible.builtin.command: cat /etc/os-release | egrep '^NAME|^VERSION='
+      ansible.builtin.command: grep "^NAME=" /etc/os-release && grep "^VERSION=" /etc/os-release
       register: os_release
       changed_when: false
 
