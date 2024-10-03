@@ -107,10 +107,13 @@
       ansible.builtin.yum:
         name: "*"
         state: latest
-      register: yum_update_result 
+      register: yum_update_result
+      notify: "Reboot server"
 
+  handlers:
     - name: Reboot server if required
+      become: true
       ansible.builtin.reboot:
         msg: "Reboot after update"
         reboot_timeout: 300
-      when: yum_update_result.changed  
+      when: yum_update_result.changed
