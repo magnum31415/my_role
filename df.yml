@@ -2,6 +2,9 @@
 - name: Ping all servers
   hosts: "{{ target_hostnames }}"
   gather_facts: true
+  vars:
+    ansible_user: "{{ target_ansible_user }}"
+    ansible_password: "{{ target_ansible_password }}"
 
   tasks:
 
