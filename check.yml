@@ -1,5 +1,5 @@
 ---
-- name: Ping all servers
+- name: Check servers
   hosts: "{{ target_hostnames  | default('none') }}"
   gather_facts: true
   vars:

@@ -1,7 +1,10 @@
 ---
-- name: Menuoper
-  hosts: all
-  gather_facts: false
+- name: Deploy Menuoper
+  hosts: "{{ target_hostnames  | default('none') }}"
+  gather_facts: true
+  vars:
+    ansible_user: "{{ target_ansible_user | default('none') }}"
+    ansible_password: "{{ target_ansible_password | default('none') }}"
   # vars:
   #   # vars file for set_facts_inventory
   #   servers:
