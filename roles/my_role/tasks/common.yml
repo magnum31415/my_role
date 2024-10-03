@@ -1,4 +1,5 @@
 - name: Ensure latest index.html is present
+  become: true
   ansible.builtin.template:
     src: index.html.j2
     dest: /var/www/html/index.html
@@ -7,12 +8,14 @@
     mode: '0644'
 
 - name: Whitelist httpd in firewalld
+  become: true
   ansible.posix.firewalld:
     service: http
     state: enabled
     permanent: true
 
 - name: Ensure the 'automation' user exists
+  become: true
   ansible.builtin.user:
     name: automation
     # password: "{{ automation_password | password_hash('sha512') }}"
