@@ -43,6 +43,7 @@
       register: ram_usage
       
     - name: Listar los puertos abiertos en firewalld (zona pública)
+      become: true
       ansible.builtin.command: firewall-cmd --zone=public --list-ports
       register: open_ports
 
