@@ -1,6 +1,6 @@
 ---
 - name: Ping all servers
-  hosts: "{{ host_names }}"
+  hosts: "{{ target_hostnames }}"
   gather_facts: true
 
   tasks:
