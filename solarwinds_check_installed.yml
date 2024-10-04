@@ -24,14 +24,14 @@
     - name: Gather service facts
       ansible.builtin.service_facts:
 
-    - name: Show information about a specific all services
-      ansible.builtin.debug:
-        msg: "{{ ansible_facts.services }}"
+    # - name: Show information about a specific all services
+    #   ansible.builtin.debug:
+    #     msg: "{{ ansible_facts.services }}"
 
     - name: Check if swiagent service is active
       ansible.builtin.debug:
         msg: >
-          {% if ansible_facts.services['swiagent.service'].state == 'running' %}
+          {% if ansible_facts.services['swiagentd.service'].state == 'running' %}
             INFO: The swiagent service is active.
           {% else %}
             WARNING: The swiagent service is NOT active.
