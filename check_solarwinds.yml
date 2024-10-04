@@ -8,14 +8,13 @@
 
   tasks:
 
-  
     - name: Installed packages
       ansible.builtin.package_facts:
         manager: rpm
-    
+
     - name: Check if swiagent is installed
-      debug:
-         msg: >
+      ansible.builtin.debug:
+        msg: >
           {% if 'swiagent' in ansible_facts.packages %}
             INFO: The swiagent is installed.
           {% else %}
@@ -23,10 +22,10 @@
           {% endif %}
 
     - name: Gather service facts
-      service_facts:
+      ansible.builtin.service_facts:
 
     - name: Check if swiagent service is active
-      debug:
+      ansible.builtin.debug:
         msg: >
           {% if ansible_facts.services['swiagent.service'].state == 'running' %}
             INFO: The swiagent service is active.
