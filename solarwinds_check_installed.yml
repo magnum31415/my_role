@@ -12,17 +12,30 @@
       ansible.builtin.package_facts:
         manager: rpm
 
-    - name: Check if swiagent is installed
-      ansible.builtin.debug:
-        msg: >
-          {% if 'swiagent' in ansible_facts.packages %}
-            INFO: The swiagent is installed.
-          {% else %}
-            WARNING: The swiagent is NOT installed.
-          {% endif %}
+    - name: Set agent_installed fact
+      ansible.builtin.set_fact:
+        agent_installed: "{{ 'true' if 'swiagent' in ansible_facts.packages else 'false' }}"
+
+    # - name: Check if swiagent is installed
+    #   ansible.builtin.debug:
+    #     msg: >
+    #       {% if 'swiagent' in ansible_facts.packages %}
+    #         INFO: The swiagent is installed.
+    #       {% else %}
+    #         WARNING: The swiagent is NOT installed.
+    #       {% endif %}
 
     - name: Gather service facts
       ansible.builtin.service_facts:
+
+    # - name: Set agent_started fact
+    #   set_fact:
+    #     agent_started: "{{ 'true' if 'swiagent' in ansible_facts.packages else 'false' }}"
+
+    - name: Set agent_started fact
+      ansible.builtin.set_fact:
+        agent_started: "{{ 'true' if ('swiagent' in ansible_facts.packages) and (ansible_facts.services['swiagentd.service'].state == 'running') else 'false' }}"
+
 
     # - name: Show information about a specific all services
     #   ansible.builtin.debug:
@@ -33,11 +46,11 @@
     #     msg:
     #       - "SolarWinds agent {{ 'is ' if 'swiagent' in ansible_facts.packages else 'is NOT' }} installed"
 
-    - name: Check SolarWinds is Active
-      ansible.builtin.debug:
-        msg:
-          - "SolarWinds agent {{ 'is ' if ansible_facts.services['swiagentd.service'].state == 'running' else ' is NOT ' }} started"
-      when: ('swiagent' in ansible_facts.packages)
+    # - name: Check SolarWinds is Active
+    #   ansible.builtin.debug:
+    #     msg:
+    #       - "SolarWinds agent {{ 'is' if ansible_facts.services['swiagentd.service'].state == 'running' else 'is NOT' }} started"
+    #   when: ('swiagent' in ansible_facts.packages)
 
     # - name: Check if swiagent service is active
     #   ansible.builtin.debug:

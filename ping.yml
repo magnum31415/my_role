@@ -1,8 +1,10 @@
 ---
 - name: Ping all servers
-  hosts: all
+  hosts: "{{ target_hostnames  | default('none') }}"
   gather_facts: false
-
+  vars:
+    ansible_user: "{{ target_ansible_user | default('none') }}"
+    ansible_password: "{{ target_ansible_password | default('none') }}"
   tasks:
     - name: Ping all servers
       ansible.builtin.ping:
