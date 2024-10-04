@@ -8,7 +8,7 @@
 
   tasks:
 
-    - name: Installed packages
+    - name: Get installed packages list
       ansible.builtin.package_facts:
         manager: rpm
 
@@ -25,7 +25,7 @@
     #         WARNING: The swiagent is NOT installed.
     #       {% endif %}
 
-    - name: Gather service facts
+    - name: Get defined service list
       ansible.builtin.service_facts:
 
     # - name: Set agent_started fact
@@ -35,6 +35,17 @@
     - name: Set agent_started fact
       ansible.builtin.set_fact:
         agent_started: "{{ 'true' if ('swiagent' in ansible_facts.packages) and (ansible_facts.services['swiagentd.service'].state == 'running') else 'false' }}"
+
+
+    - name: Check if swiagent service is active
+      ansible.builtin.debug:
+        msg: >
+          {% if agent_installed %}
+            INFO: The swiagent is installed and the service is {% if not agent_started %} NOT {% endif %} }} started.
+          {% else %}
+            WARNING: The swiagent service is NOT installed.
+          {% endif %}
+
 
 
     # - name: Show information about a specific all services
