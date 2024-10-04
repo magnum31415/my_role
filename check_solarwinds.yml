@@ -1,0 +1,35 @@
+---
+- name: Check SolarWind Agent
+  hosts: "{{ target_hostnames  | default('none') }}"
+  gather_facts: true
+  vars:
+    ansible_user: "{{ target_ansible_user | default('none') }}"
+    ansible_password: "{{ target_ansible_password | default('none') }}"
+
+  tasks:
+
+  
+    - name: Installed packages
+      ansible.builtin.package_facts:
+        manager: rpm
+    
+    - name: Check if swiagent is installed
+      debug:
+         msg: >
+          {% if 'swiagent' in ansible_facts.packages %}
+            INFO: The swiagent is installed.
+          {% else %}
+            WARNING: The swiagent is NOT installed.
+          {% endif %}
+
+    - name: Gather service facts
+      service_facts:
+
+    - name: Check if swiagent service is active
+      debug:
+        msg: >
+          {% if ansible_facts.services['swiagent.service'].state == 'running' %}
+            INFO: The swiagent service is active.
+          {% else %}
+            WARNING: The swiagent service is NOT active.
+          {% endif %}
