@@ -1,2 +1,4 @@
 ---
-# defaults file for my_role
+target_hostnames: 'none'
+target_ansible_user: "root"
+target_ansible_password: ""

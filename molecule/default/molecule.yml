@@ -36,9 +36,9 @@ provisioner:
   inventory:
     host_vars:
       testing-server1:
-        env: "PRO"
-        group: "ENTORNO"
-        dc: "AUS"
+        target_hostnames: all
+        target_ansible_user: root
+        target_ansible_password: ""
         menuoper_services:
           - serv_desc: "Apache"
             serv_name: "apache2.service"

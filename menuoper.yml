@@ -1,28 +1,16 @@
 ---
 - name: Menuoper
-  hosts: "all"
+  hosts: "{{ target_hostnames  | default('all') }}"
   gather_facts: true
+  vars:
+    ansible_user: "{{ target_ansible_user | default('root') }}"
+    ansible_password: "{{ target_ansible_password | default('none') }}"
   # vars:
   #   ansible_user: "{{ target_ansible_user | default('none') }}"
   #   ansible_password: "{{ target_ansible_password | default('none') }}"
 
   tasks:
-    # - name: Noop task
-    #   ansible.builtin.meta: noop
-    # - name: Menuper
-    #   ansible.builtin.debug:
-    #     msg: "{{ item.serv_desc }} - {{ item.serv_name }}"
-    #   with_items: "{{ servers[ansible_hostname].services }}"
-    # - name: debug
-    #   ansible.builtin.debug:
-    #     msg: "{{ inventory_hostname  }} - {{ dc  }}"
-    #     var: hostvars[inventory_hostname]
-    # - name: pull my_role 
-    #   ansible.builtin.git:
-    #     repo: 'https://github.com/magnum31415/my_role.git'
-    #     version: main
 
-      
     - name: Include_role my_role
       ansible.builtin.include_role:
         name: "my_role"

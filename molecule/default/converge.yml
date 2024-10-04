@@ -1,11 +1,13 @@
 ---
 - name: Converge
   hosts: all
+  vars:
+    target_hostnames: 'all'
   gather_facts: true
   tasks:
     - name: Replace this task with one that validates your content
       ansible.builtin.debug:
-        msg: "This is the effective test"
+        msg: "This is the effective test. target_hostnames: {{ target_hostnames }}"
     # - name: include role set_fatcs_inventory
     #   include_role:
     #     name: "/mnt/c/Users/80020377/Ansible/set_fatcs_inventory"
