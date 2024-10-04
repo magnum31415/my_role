@@ -24,10 +24,10 @@
     - name: Gather service facts
       ansible.builtin.service_facts:
 
-    - name: Show information about a specific service (swiagent)
-      debug:
-        msg: "{{ ansible_facts.services['swiagent.service'] }}"
-        
+    - name: Show information about a specific all services
+      ansible.builtin.debug:
+        msg: "{{ ansible_facts.services }}"
+
     - name: Check if swiagent service is active
       ansible.builtin.debug:
         msg: >
