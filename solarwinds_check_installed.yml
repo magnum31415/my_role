@@ -41,12 +41,14 @@
       ansible.builtin.debug:
         msg: >
           {% if agent_installed %}
-            INFO: The swiagent is installed and the service is {% if not agent_started %} NOT {% endif %} }} started.
+            {% if not agent_started %}
+              ALERT: The swiagent is installed but the service is NOT started.
+            {% else %}
+              INFO: The swiagent is installed and the service is started.
+            {% endif %}
           {% else %}
-            WARNING: The swiagent service is NOT installed.
+            ALERT: The swiagent service is NOT installed.
           {% endif %}
-
-
 
     # - name: Show information about a specific all services
     #   ansible.builtin.debug:
