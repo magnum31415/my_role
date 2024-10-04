@@ -42,12 +42,12 @@
         msg: >
           {% if agent_installed %}
             {% if not agent_started %}
-              ALERT: The swiagent is installed but the service is NOT started.
+          ALERT: The swiagent is installed but the service is NOT started in {{ ansible_hostname }}.
             {% else %}
-              INFO: The swiagent is installed and the service is started.
+          INFO: The swiagent is installed and the service is started in {{ ansible_hostname }}.
             {% endif %}
           {% else %}
-            ALERT: The swiagent service is NOT installed.
+          ALERT: The swiagent service is NOT installed in {{ ansible_hostname }}.
           {% endif %}
 
     # - name: Show information about a specific all services
