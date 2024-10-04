@@ -37,8 +37,8 @@
       ansible.builtin.debug:
         msg:
           - "SolarWinds agent {{ 'is ' if ansible_facts.services['swiagentd.service'].state == 'running' else ' is NOT ' }} started"
+      when: ( 'swiagent' in ansible_facts.packages )
 
-    #   when: ( 'swiagent' in ansible_facts.packages )
     # - name: Check if swiagent service is active
     #   ansible.builtin.debug:
     #     msg: >
