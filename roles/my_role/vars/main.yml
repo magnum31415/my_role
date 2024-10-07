@@ -7,6 +7,7 @@ pkg_list_rh:
   - "passwd"
   - "pam"
   - "nftables"
+  - "curl"
 pkg_list_ubu:
   - "apache2"
   - "firewalld"
@@ -15,6 +16,7 @@ pkg_list_ubu:
   - "passwd"
   - "base-files"
   - "nftables"
+  - "curl"
 svc_list_rh:
   - "httpd"
   - "firewalld"

@@ -14,4 +14,4 @@
     #     name: "my_role"
 
 - name: Import menuoper playbook
-  import_playbook: "../../menuoper.yml"
+  import_playbook: "../../../../menuoper.yml"

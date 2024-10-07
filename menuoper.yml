@@ -1,42 +1,12 @@
 ---
 - name: Deploy Menuoper
-  hosts: "{{ target_hostnames  | default('none') }}"
+  hosts: "{{ target_hostnames  | default('all') }}"
   gather_facts: true
   vars:
-    ansible_user: "{{ target_ansible_user | default('none') }}"
+    ansible_user: "{{ target_ansible_user | default('root') }}"
     ansible_password: "{{ target_ansible_password | default('none') }}"
-  # vars:
-  #   # vars file for set_facts_inventory
-  #   servers:
-  #     testing-server1:
-  #       env: PRO
-  #       group: ENTORNO
-  #       dc: AUS
-  #       services:
-  #         - serv_desc: "Apache"
-  #           serv_name: "apache2.service"
-  #           serv_chek:
-  #         - serv_desc: "Firewall"
-  #           serv_name: "firewalld.service"
-  #         - serv_desc: "Qualis Agent"
-  #           serv_name: "qualis.service"
-  #         - serv_desc: "SolarWinds Agent"
-  #           serv_name: "solarwinds.service"
-  #         - serv_desc: "FalconSensor Agent"
-  #           serv_name: "falcon.service"
-  #     testing-server2: { env: PRO, group: ENTORNO, dc: DUS, services: [{ serv_desc: "Apache", serv_name: "httpd.service" }, { serv_desc: "Firewall", serv_name: "firewalld.service" }] }
 
   tasks:
-    # - name: Noop task
-    #   ansible.builtin.meta: noop
-    # - name: Menuper
-    #   ansible.builtin.debug:
-    #     msg: "{{ item.serv_desc }} - {{ item.serv_name }}"
-    #   with_items: "{{ servers[ansible_hostname].services }}"
-    # - name: debug
-    #   ansible.builtin.debug:
-    #     msg: "{{ inventory_hostname  }} - {{ dc  }}"
-    #     var: hostvars[inventory_hostname]
 
     - name: Include_role my_role
       ansible.builtin.include_role:

@@ -41,6 +41,7 @@
   with_items:
     - { dest: "/home/oper/.menu", owner: "oper", group: "oper", state: "directory", mode: '0755' }
     - { dest: "/home/oper/.menu/app", owner: "oper", group: "oper", state: "directory", mode: '0755' }
+    - { dest: "/home/oper/.menu/tools", owner: "oper", group: "oper", state: "directory", mode: '0755' }
     - { dest: "/home/oper/scripts", owner: "oper", group: "oper", state: "directory", mode: '0755' }
 
 - name: Copy required files
@@ -56,6 +57,7 @@
     - { src: "gomenu", dest: "/home/oper/scripts/gomenu", mode: "755", owner: "oper", group: "oper" }
     - { src: "bash_profile", dest: "/home/oper/.bash_profile", mode: "644", owner: "oper", group: "oper" }
     - { src: "motd", dest: "/etc/motd", mode: "644", owner: "root", group: "root" }
+    - { src: "check_url.sh", dest: "/home/oper/scripts/check_url.sh", mode: "755", owner: "oper", group: "oper" }
     - { src: "check_environment.sh", dest: "/home/oper/scripts/check_environment.sh", mode: "755", owner: "oper", group: "oper" }
 
 
@@ -71,6 +73,9 @@
   with_items:
     - { src: 'menu/main.mnu.j2', dest: "/home/oper/.menu/main.mnu", owner: "oper", mode: "0664", group: "oper" }
     - { src: 'menu/app/main.mnu.j2', dest: "/home/oper/.menu/app/main.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/tools/main.mnu.j2', dest: "/home/oper/.menu/tools/main.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/tools/main.mnu.0.checkserver.mnu.j2', dest: "/home/oper/.menu/tools/main.mnu.0.checkserver.mnu", owner: "oper", mode: "0664", group: "oper" }
+    - { src: 'menu/tools/main.mnu.1.checkurl.mnu.j2', dest: "/home/oper/.menu/tools/main.mnu.1.checkurl.mnu", owner: "oper", mode: "0664", group: "oper" }
 
 - name: Inicializar variable contador
   ansible.builtin.set_fact:
